@@ -24,50 +24,8 @@ signal has_new_attractor(attractor:OrbitalObject3D)
 ## The gravitational mass of this body, used in all orbital calculations (e.g., specific orbital energy, acceleration, and time period).
 @export var mass: float = 1.0
 @export var radius: float = 0.5
-
-#var vel_basis:Basis
-#@export_group("Initial position espherical", "pos_")
-#@export var pos_radius: float = 0.0:
-	#set(v):
-		#pos_radius = maxf(0.0, v)
-		#_update_position()
-#@export_range(0.0,360.0,0.1,"º") var pos_theta: float = 0.0:
-	#set(v):
-		#pos_theta = v
-		#_update_position()
-#@export_range(-90,90,0.1,"º") var pos_phi: float = 0.0:
-	#set(v):
-		#pos_phi = v
-		#_update_position()
-#func _update_position():
-	#var x:float = pos_radius * cos(deg_to_rad(pos_phi)) * cos(deg_to_rad(pos_theta))
-	#var y:float = pos_radius * cos(deg_to_rad(pos_phi)) * sin(deg_to_rad(pos_theta))
-	#var z:float = pos_radius * sin(deg_to_rad(pos_phi))
-	#_initial_position = Vector3(x, y, z)
-	#var i = Vector3(x, y, z).normalized()
-	#var j = -i.cross(Vector3(0,0,1)).normalized()
-	#var k = i.cross(j).normalized()
-	#vel_basis = Basis(i, j, k)
-	#_update_velocity()
-#
-#@export_group("Initial velocity espherical", "vel_")
-#@export var vel_speed:float = 0.0:
-	#set(v):
-		#vel_speed = v
-		#_update_velocity()
-#@export_range(-90,90,0.1,"º") var vel_elevation:float = 0.0:
-	#set(v):
-		#vel_elevation = v
-		#_update_velocity()
-#@export_range(-90,90,0.1,"º") var vel_azimuth:float = 0.0:
-	#set(v):
-		#vel_azimuth = v
-		#_update_velocity()
-#func _update_velocity():
-	#var x = vel_speed * cos(deg_to_rad(vel_azimuth)) * sin(deg_to_rad(vel_elevation))
-	#var y = vel_speed * cos(deg_to_rad(vel_azimuth)) * cos(deg_to_rad(vel_elevation))
-	#var z = vel_speed * sin(deg_to_rad(vel_azimuth))
-	#_initial_velocity = vel_basis * Vector3(x, y, z)
+## In the case of a rotating body, this vector will be the normal to the equatorial plane and its length represents the rotation in rad/sec. (It does not influence the orbital calculation)
+@export var body_rotation: Vector3 = Vector3.ZERO
 
 @export var _initial_position: Vector3= Vector3.ZERO: set = _set_initial_position
 @export var _initial_velocity: Vector3 = Vector3.ZERO: set = _set_initial_velocity
@@ -714,7 +672,6 @@ func get_periapsis() -> Vector3:
 	match orbit_type:
 		ORBITS_TYPES.ELIPTIC:
 			var xp = a * (1 - e)
-			if name == "Ship": print("periapsis: ", xp)
 			result = _perifocal_transform.basis * Vector3(xp, 0.0, 0.0)
 			return result
 		ORBITS_TYPES.HYPERBOLIC:
