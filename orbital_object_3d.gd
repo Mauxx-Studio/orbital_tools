@@ -298,7 +298,8 @@ func _calculate_orbital_elements(r_vec: Vector3, v_vec:Vector3, attractor: Orbit
 	# Lógica para manejar los tres tipos de órbita basados en epsilon:
 	if abs(epsilon) < 1e-3 * mu / r:
 		# **Órbita Parabólica (Escape Justo):** a = INF
-		if _show_log_msgs: print("Parabolic Orbit")
+		#if _show_log_msgs:
+		print("Parabolic Orbit")
 		var dv:float = 0.001
 		var result: int
 		if _eliptic:
@@ -306,7 +307,7 @@ func _calculate_orbital_elements(r_vec: Vector3, v_vec:Vector3, attractor: Orbit
 		else:
 			result = calcule_orbit(r_vec,v_vec * (1.0 - dv))
 		orbit_type = result
-		return result
+#		return result
 	elif epsilon < 0:
 		# **Órbita Elíptica (Cerrada):** a > 0
 		semi_major_axis = -mu / (2.0 * epsilon)
