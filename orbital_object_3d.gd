@@ -101,7 +101,7 @@ func _notification(what: int) -> void:
 			_initial_position = position
 			_last_transform = global_transform
 
-func _process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		if not attractor and get_parent() is OrbitalObject3D:
 			attractor = get_parent()
