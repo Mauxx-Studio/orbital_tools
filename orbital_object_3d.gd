@@ -594,6 +594,9 @@ func has_massive_orbiters() -> bool:
 func get_orbiters() -> Array:
 	return orbiters
 
+func get_massive_orbiters() -> Array:
+	return _massive_orbiters
+
 ## Initializes and calculates all Classical Orbital Elements (COEs) for the body's new state relative to its current attractor. This function is used when the body enters a new sphere of influence or is instantiated, and it establishes the necessary parameters (e.g., eccentricity, semi-major axis, energy) required for the subsequent propagation of the orbit. It automatically starts the orbital simulation time counter and updates the body's influence radius. Returns the ORBITS_TYPES classification of the trajectory established by the given state vectors.
 func calcule_orbit(new_position: Vector3, new_velocity: Vector3) -> ORBITS_TYPES:
 	if not attractor:
